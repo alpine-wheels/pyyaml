@@ -1,9 +1,15 @@
+# template version 2020.2
+
 name: Build Python wheel for Alpine Linux
 
 on:
-  push:
+  pull_request:
     branches:
       - master
+    types:
+      - opened
+      - synchronize
+      - reopened
   release:
     types:
       - published
@@ -17,7 +23,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v2
       - name: Run build script in Alpine container
-        run: docker-compose up build
+        run: docker-compose run -T build
       - name: Get file name and sha256 of asset
         id: asset
         run: |
